@@ -112,10 +112,6 @@ public class VehicleService implements GenericService<Vehicle> {
     public void update(Vehicle vehicle) throws Exception {
         validateVehicle(vehicle);
 
-        if (vehicle.getVehicleId() == null) {
-            throw new ValidationException("Vehicle ID is required for update.");
-        }
-
         Connection conn = null;
         try {
             conn = DatabaseConnection.getConnection();
@@ -226,6 +222,10 @@ public class VehicleService implements GenericService<Vehicle> {
     }
 
     private void validateVehicle(Vehicle vehicle) throws ValidationException {
+        if (vehicle.getVehicleId() == null) {
+            throw new ValidationException("Vehicle ID is required for update.");
+        }
+
         if (vehicle == null) {
             throw new ValidationException("Vehicle cannot be null.");
         }
