@@ -45,7 +45,7 @@ public class InsuranceVehicleDao implements GenericDao<InsuranceVehicle> {
     }
 
     @Override
-    public InsuranceVehicle read(Long id, Connection conn) throws Exception {
+    public InsuranceVehicle findVehicleById(Long id, Connection conn) throws Exception {
         String sql = "SELECT * FROM insurance_vehicle WHERE insurance_vehicle_id = ? AND isActive = true";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {

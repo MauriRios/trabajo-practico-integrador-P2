@@ -23,7 +23,7 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
         validateInsurance(insurance);
 
         // Verificar que el vehículo existe
-        Vehicle vehicle = vehicleDao.read(insurance.getVehicleId(), conn);
+        Vehicle vehicle = vehicleDao.findVehicleById(insurance.getVehicleId(), conn);
         if (vehicle == null) {
             throw new ValidationException("Vehicle with ID " + insurance.getVehicleId() + " does not exist.");
         }
@@ -54,7 +54,7 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
             conn.setAutoCommit(false);
 
             // Verificar que el vehículo existe
-            Vehicle vehicle = vehicleDao.read(insurance.getVehicleId(), conn);
+            Vehicle vehicle = vehicleDao.findVehicleById(insurance.getVehicleId(), conn);
             if (vehicle == null) {
                 throw new ValidationException("Vehicle with ID " + insurance.getVehicleId() + " does not exist.");
             }
@@ -113,7 +113,7 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
         Connection conn = null;
         try {
             conn = DatabaseConnection.getConnection();
-            InsuranceVehicle insurance = insuranceDao.read(id, conn);
+            InsuranceVehicle insurance = insuranceDao.findVehicleById(id, conn);
 
             if (insurance == null) {
                 throw new DatabaseException("Insurance with ID " + id + " not found.");
@@ -150,7 +150,7 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
             conn.setAutoCommit(false);
 
             // Verificar que el seguro existe
-            InsuranceVehicle existing = insuranceDao.read(insurance.getId(), conn);
+            InsuranceVehicle existing = insuranceDao.findVehicleById(insurance.getId(), conn);
             if (existing == null) {
                 throw new DatabaseException("Insurance with ID " + insurance.getId() + " not found.");
             }
@@ -200,7 +200,7 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
             conn.setAutoCommit(false);
 
             // Verificar que el seguro existe
-            InsuranceVehicle existing = insuranceDao.read(id, conn);
+            InsuranceVehicle existing = insuranceDao.findVehicleById(id, conn);
             if (existing == null) {
                 throw new DatabaseException("Insurance with ID " + id + " not found.");
             }

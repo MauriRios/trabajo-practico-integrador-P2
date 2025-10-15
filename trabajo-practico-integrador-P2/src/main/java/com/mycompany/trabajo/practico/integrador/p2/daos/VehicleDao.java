@@ -52,7 +52,7 @@ public class VehicleDao implements GenericDao<Vehicle> {
     }
 
     @Override
-    public Vehicle read(Long id, Connection conn) throws Exception {
+    public Vehicle findVehicleById(Long id, Connection conn) throws Exception {
         String sql = "SELECT * FROM vehicle WHERE vehicle_id = ? AND isActive = true";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
