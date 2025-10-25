@@ -41,7 +41,7 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
         }
 
         insuranceDao.create(insurance, conn);
-        System.out.println("✓ Insurance created successfully with ID: " + insurance.getId());
+        System.out.println("Insurance created successfully with ID: " + insurance.getId());
     }
 
     @Override
@@ -164,13 +164,13 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
             insuranceDao.update(insurance, conn);
 
             conn.commit();
-            System.out.println("✓ Insurance updated successfully.");
+            System.out.println("Insurance updated successfully.");
 
         } catch (Exception e) {
             if (conn != null) {
                 try {
                     conn.rollback();
-                    System.err.println("✗ Transaction rolled back due to error.");
+                    System.err.println("Transaction rolled back due to error.");
                 } catch (SQLException ex) {
                     System.err.println("Error during rollback: " + ex.getMessage());
                 }
@@ -208,13 +208,13 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
             insuranceDao.delete(id, conn);
 
             conn.commit();
-            System.out.println("✓ Insurance deleted successfully (logical deletion).");
+            System.out.println("Insurance deleted successfully (logical deletion).");
 
         } catch (Exception e) {
             if (conn != null) {
                 try {
                     conn.rollback();
-                    System.err.println("✗ Transaction rolled back due to error.");
+                    System.err.println("Transaction rolled back due to error.");
                 } catch (SQLException ex) {
                     System.err.println("Error during rollback: " + ex.getMessage());
                 }

@@ -46,7 +46,7 @@ mysql -u root -p < sql/insert_data.sql
 
 Editar `resources/database.properties`:
 ```properties
-db.url=jdbc:mysql://localhost:3306/vehiculos_db?useSSL=false&serverTimezone=UTC
+db.url=jdbc:mysql://localhost:3306/vehiculos_db
 db.user=root
 db.password=TU_PASSWORD_AQUI
 ```
@@ -126,10 +126,10 @@ try {
 
 ## 👥 Integrantes del Equipo
 
-1. **[Nombre 1]** - Desarrollo de entidades y DAOs
-2. **[Nombre 2]** - Desarrollo de servicios y transacciones
-3. **[Nombre 3]** - Desarrollo del menú y validaciones
-4. **[Nombre 4]** - Documentación y scripts SQL
+1. **[Juan Pablo]** - Desarrollo de entidades, DAOs y transacciones
+2. **[Mauricio Rios]** - Desarrollo de servicios insuranceService
+3. **[Nahuel Riveros]** - Desarrollo del menú y validaciones
+4. **[Brian Rios]** - Documentación, scripts SQL servicios insuranceVehicleService
 
 ## 🎥 Video Demostrativo
 
