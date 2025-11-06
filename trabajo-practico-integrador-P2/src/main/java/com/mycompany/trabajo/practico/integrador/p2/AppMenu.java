@@ -45,7 +45,7 @@ public class AppMenu {
                         System.out.println("\nInvalid option. Please try again.");
                 }
             } catch (Exception e) {
-                System.err.println("\n✗ Error: " + e.getMessage());
+                System.err.println("\nError: " + e.getMessage());
             }
 
             if (!exit) {
@@ -102,7 +102,7 @@ public class AppMenu {
                         System.out.println("\nInvalid option. Please try again.");
                 }
             } catch (Exception e) {
-                System.err.println("\n✗ Error: " + e.getMessage());
+                System.err.println("\nError: " + e.getMessage());
             }
 
             if (!back) {
@@ -341,7 +341,7 @@ public class AppMenu {
                         System.out.println("\nInvalid option. Please try again.");
                 }
             } catch (Exception e) {
-                System.err.println("\n✗ Error: " + e.getMessage());
+                System.err.println("\nError: " + e.getMessage());
             }
 
             if (!back) {
@@ -599,7 +599,7 @@ public class AppMenu {
                         System.out.println("\nInvalid option. Please try again.");
                 }
             } catch (Exception e) {
-                System.err.println("\n✗ Error: " + e.getMessage());
+                System.err.println("\nError: " + e.getMessage());
             }
 
             if (!back) {
