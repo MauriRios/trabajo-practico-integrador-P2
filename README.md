@@ -1,7 +1,5 @@
 # Vehicle Insurance Management System
-
-Sistema de gestión de vehículos y seguros vehiculares desarrollado en Java con JDBC y MySQL.
-
+Sistema de gestión de vehículos y seguros vehiculares. Incluye script SQL único para crear y poblar la base en MySQL/MariaDB, y una app Java/JDBC con patrón DAO–Service–Main.
 ## 📋 Descripción del Dominio
 
 Este proyecto implementa una relación **1→1 unidireccional** entre las entidades:
@@ -14,35 +12,60 @@ Un vehículo puede tener **0 o 1 seguro**, y cada seguro está asociado a **exac
 
 - **Java**: 21 o superior
 - **MySQL**: 8.0 o superior
+- **Xampp** Para levantar el puerto SQL
+- **Workbench o phpMyAdmin para ejecutar el script SQL**
 - **JDBC Driver**: MySQL Connector/J 8.0+
 
+## 🗄️ Base de datos
+- **Archivo**: script SQL único (ejecutar por bloques tal como está indicado en comentarios).
+
+- **Crear el esquema**: vehiculos_db, tablas, FKs, triggers (baja lógica), CTE de carga masiva, vistas, usuarios/roles y pruebas de concurrencia
 ## 📦 Estructura del Proyecto
 ```
-src/
-├── config/          # Conexión a base de datos
-├── entities/        # Clases de dominio (Vehicle, InsuranceVehicle, CoverType)
-├── dao/             # Data Access Objects (patrón DAO)
-├── service/         # Lógica de negocio y transacciones
-├── exception/       # Excepciones personalizadas
-└── main/            # Punto de entrada y menú de consola
+└── trabajo-practico-integrador-P2/
+        ├── pom.xml
+        └── src/
+            ├── README.md
+            ├── main/
+               ├── java/
+               │   └── com/
+               │       └── mycompany/
+               │           └── trabajo/
+               │               └── practico/
+               │                   └── integrador/
+               │                       └── p2/
+               │                           ├── AppMenu.java
+               │                           ├── TrabajoPracticoIntegradorP2.java
+               │                           ├── config/
+               │                           │   └── DatabaseConnection.java
+               │                           ├── daos/
+               │                           │   ├── GenericDao.java
+               │                           │   ├── InsuranceVehicleDao.java
+               │                           │   └── VehicleDao.java
+               │                           ├── entities/
+               │                           │   ├── InsuranceVehicle.java
+               │                           │   ├── Vehicle.java
+               │                           │   └── enums/
+               │                           │       └── CoverType.java
+               │                           ├── exceptions/
+               │                           │   ├── DatabaseException.java
+               │                           │   ├── DuplicateEntityException.java
+               │                           │   └── ValidationException.java
+               │                           └── services/
+               │                               ├── GenericService.java
+               │                               ├── InsuranceVehicleService.java
+               │                               └── VehicleService.java
+               └── resources/
+                   └── database.properties
 
-resources/
-└── database.properties  # Configuración de BD
-
-sql/
-├── create_database.sql  # Script de creación
-└── insert_data.sql      # Datos de prueba
 ```
 
 ## 🚀 Instalación y Ejecución
 
-### 1. Crear la Base de Datos
-```bash
-mysql -u root -p < sql/create_database.sql
-mysql -u root -p < sql/insert_data.sql
-```
-
-### 2. Configurar Credenciales
+### 1. Abrí MySQL Workbench (o phpMyAdmin en XAMPP).
+### 2. Pegá el script y ejecutá por bloques (las secciones están numeradas).
+### 3.Verificá con las consultas de la sección 10 del script (SHOW TABLES, DESCRIBE, etc.).
+### 4. Configurar Credenciales
 
 Editar `resources/database.properties`:
 ```properties
@@ -64,17 +87,17 @@ java -cp "bin:lib/*" main.Main
 
 ### Tabla Vehicle
 - `vehicle_id` (PK)
-- `is_active` (BOOLEAN)
-- `plate` (VARCHAR(10) UNIQUE)
+- `is_active` (BOOLEAN) (baja lógica)
+- `domain` (VARCHAR(10) UNIQUE)
 - `brand` (VARCHAR(50))
 - `model` (VARCHAR(50))
 - `year` (INT)
-- `chassis_number` (VARCHAR(50) UNIQUE)
+- `chasis_number` (VARCHAR(50) UNIQUE) 
+- `insurance_vehicle_id` (FK UNIQUE → 1:1)
 
 ### Tabla InsuranceVehicle
-- `id` (PK)
-- `is_active` (BOOLEAN)
-- `vehicle_id` (FK UNIQUE) ← Garantiza 1→1
+- `insurance_vehicle_id` (PK)
+- `is_active` (BOOLEAN) (baja lógica) ← Garantiza 1→1
 - `insurance_name` (VARCHAR(80))
 - `policy_number` (VARCHAR(50) UNIQUE)
 - `cover` (ENUM: RC, TERCEROS, TODO_RIESGO)
@@ -100,7 +123,11 @@ java -cp "bin:lib/*" main.Main
 - ✅ Buscar vehículo por patente
 - ✅ Buscar seguro por número de póliza
 - ✅ Buscar seguro por ID de vehículo
-
+### Funcionalidades (app Java/JDBC)
+- ✅CRUD de vehículos y seguros (con baja lógica isActive)
+- ✅Transacciones con commit/rollback en Services
+- ✅Relación 1:1 garantizada por FK UNIQUE y validaciones en Services
+- ✅Menú de consola con mensajes claros de éxito/errores
 ## 🔒 Validaciones Implementadas
 
 - Campos obligatorios (patente, marca, modelo, aseguradora, etc.)
@@ -126,7 +153,7 @@ try {
 
 ## 👥 Integrantes del Equipo
 
-1. **[Juan Pablo]** - Desarrollo de entidades, DAOs y transacciones
+1. **[Juan Pablo Rivero]** - Desarrollo de entidades, DAOs y transacciones
 2. **[Mauricio Rios]** - Desarrollo de servicios insuranceService
 3. **[Nahuel Riveros]** - Desarrollo del menú y validaciones
 4. **[Brian Rios]** - Documentación, scripts SQL servicios insuranceVehicleService
