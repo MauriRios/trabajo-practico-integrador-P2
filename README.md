@@ -65,22 +65,17 @@ Un vehículo puede tener **0 o 1 seguro**, y cada seguro está asociado a **exac
 ### 1. Abrí MySQL Workbench (o phpMyAdmin en XAMPP).
 ### 2. Pegá el script y ejecutá por bloques (las secciones están numeradas).
 ### 3.Verificá con las consultas de la sección 10 del script (SHOW TABLES, DESCRIBE, etc.).
-### 4. Configurar Credenciales
 
+### 4. Compilar y Ejecutar por bloques el script SQL
+```bash
+tfi_grupo_150_script_unico_entregable (1).sql
+```
+### 5. Configurar Credenciales
 Editar `resources/database.properties`:
 ```properties
 db.url=jdbc:mysql://localhost:3306/vehiculos_db
 db.user=root
 db.password=TU_PASSWORD_AQUI
-```
-
-### 3. Compilar y Ejecutar
-```bash
-# Compilar
-javac -d bin -cp "lib/*" src/**/*.java
-
-# Ejecutar
-java -cp "bin:lib/*" main.Main
 ```
 
 ## 📊 Modelo de Datos
