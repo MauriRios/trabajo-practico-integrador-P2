@@ -1,4 +1,11 @@
 package com.mycompany.trabajo.practico.integrador.p2.config;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -7,19 +14,17 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DatabaseConnection {
-    private static final Properties properties = new Properties();
+    private static final String PROPERTIES_FILE = "database.properties";
+    private static Properties properties;
 
     static {
-        try (InputStream input = DatabaseConnection.class
-                .getClassLoader()
-                .getResourceAsStream("database.properties")) {
-
+        properties = new Properties();
+        try (InputStream input = DatabaseConnection.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
             if (input == null) {
-                throw new IOException("Archivo database.properties no encontrado en resources.");
+                System.err.println("Could not find " + PROPERTIES_FILE);
+            } else {
+                properties.load(input);
             }
-
-            properties.load(input);
-
         } catch (IOException e) {
             System.err.println("Error loading database properties: " + e.getMessage());
         }
@@ -30,10 +35,6 @@ public class DatabaseConnection {
         String user = properties.getProperty("db.user");
         String password = properties.getProperty("db.password");
 
-        if (url == null || user == null) {
-            throw new SQLException("Database properties are not loaded correctly.");
-        }
-
         return DriverManager.getConnection(url, user, password);
     }
 
@@ -42,7 +43,7 @@ public class DatabaseConnection {
             try {
                 conn.close();
             } catch (SQLException e) {
-                System.err.println("Error closing connection: " + e.getMessage());
+                System.err.println("Error closing conection: " + e.getMessage());
             }
         }
     }
