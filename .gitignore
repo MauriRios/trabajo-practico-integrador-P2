@@ -1,7 +1,8 @@
 # Compiled class file
 *.class
 *.idea
-.idea
+.idea/
+trabajo-practico-integrador-P2/.idea/
 # Log file
 *.log
 
