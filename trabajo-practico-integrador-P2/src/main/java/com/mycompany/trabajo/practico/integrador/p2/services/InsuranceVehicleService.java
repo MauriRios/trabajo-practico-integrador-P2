@@ -6,6 +6,7 @@ import com.mycompany.trabajo.practico.integrador.p2.daos.VehicleDao;
 import com.mycompany.trabajo.practico.integrador.p2.entities.InsuranceVehicle;
 import com.mycompany.trabajo.practico.integrador.p2.entities.Vehicle;
 import com.mycompany.trabajo.practico.integrador.p2.exceptions.DatabaseException;
+import com.mycompany.trabajo.practico.integrador.p2.exceptions.DuplicateEntityException;
 import com.mycompany.trabajo.practico.integrador.p2.exceptions.ValidationException;
 
 import java.sql.Connection;
@@ -41,7 +42,7 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
         }
 
         insuranceDao.create(insurance, conn);
-        System.out.println("✓ Insurance created successfully with ID: " + insurance.getId());
+        System.out.println("Insurance created successfully with ID: " + insurance.getId());
     }
 
     @Override
@@ -68,7 +69,7 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
             // Verificar que no exista otra póliza con el mismo número
             InsuranceVehicle duplicatePolicy = insuranceDao.findByPolicyNumber(insurance.getPolicyNumber(), conn);
             if (duplicatePolicy != null) {
-                throw new ValidationException("Policy number '" + insurance.getPolicyNumber() + "' already exists.");
+                throw new DuplicateEntityException("Policy number '" + insurance.getPolicyNumber() + "' already exists.");
             }
 
             // Crear el seguro
@@ -138,7 +139,7 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
 
     @Override
     public void update(InsuranceVehicle insurance) throws Exception {
-        validateInsurance(insurance);
+        validateInsuranceToUpdate(insurance);
 
         if (insurance.getId() == null) {
             throw new ValidationException("Insurance ID is required for update.");
@@ -164,13 +165,13 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
             insuranceDao.update(insurance, conn);
 
             conn.commit();
-            System.out.println("✓ Insurance updated successfully.");
+            System.out.println("Insurance updated successfully.");
 
         } catch (Exception e) {
             if (conn != null) {
                 try {
                     conn.rollback();
-                    System.err.println("✗ Transaction rolled back due to error.");
+                    System.err.println("Transaction rolled back due to error.");
                 } catch (SQLException ex) {
                     System.err.println("Error during rollback: " + ex.getMessage());
                 }
@@ -208,13 +209,13 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
             insuranceDao.delete(id, conn);
 
             conn.commit();
-            System.out.println("✓ Insurance deleted successfully (logical deletion).");
+            System.out.println("Insurance deleted successfully (logical deletion).");
 
         } catch (Exception e) {
             if (conn != null) {
                 try {
                     conn.rollback();
-                    System.err.println("✗ Transaction rolled back due to error.");
+                    System.err.println("Transaction rolled back due to error.");
                 } catch (SQLException ex) {
                     System.err.println("Error during rollback: " + ex.getMessage());
                 }
@@ -267,6 +268,40 @@ public class InsuranceVehicleService implements GenericService<InsuranceVehicle>
 
         if (insurance.getVehicleId() == null) {
             throw new ValidationException("Vehicle ID is required.");
+        }
+
+        if (insurance.getInsuranceName() == null || insurance.getInsuranceName().trim().isEmpty()) {
+            throw new ValidationException("Insurance name is required.");
+        }
+
+        if (insurance.getInsuranceName().length() > 80) {
+            throw new ValidationException("Insurance name cannot exceed 80 characters.");
+        }
+
+        if (insurance.getPolicyNumber() == null || insurance.getPolicyNumber().trim().isEmpty()) {
+            throw new ValidationException("Policy number is required.");
+        }
+
+        if (insurance.getPolicyNumber().length() > 50) {
+            throw new ValidationException("Policy number cannot exceed 50 characters.");
+        }
+
+        if (insurance.getCover() == null) {
+            throw new ValidationException("Cover type is required.");
+        }
+
+        if (insurance.getExpirationDate() == null) {
+            throw new ValidationException("Expiration date is required.");
+        }
+
+        if (insurance.getExpirationDate().isBefore(LocalDate.now())) {
+            throw new ValidationException("Expiration date cannot be in the past.");
+        }
+    }
+
+    private void validateInsuranceToUpdate(InsuranceVehicle insurance) throws ValidationException {
+        if (insurance == null) {
+            throw new ValidationException("Insurance cannot be null.");
         }
 
         if (insurance.getInsuranceName() == null || insurance.getInsuranceName().trim().isEmpty()) {

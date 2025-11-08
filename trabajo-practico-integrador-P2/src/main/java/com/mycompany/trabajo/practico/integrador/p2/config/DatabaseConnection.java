@@ -6,14 +6,25 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
+
 public class DatabaseConnection {
-    private static final String PROPERTIES_FILE = "src/resources/database.properties";
+    private static final String PROPERTIES_FILE = "database.properties";
     private static Properties properties;
 
     static {
         properties = new Properties();
-        try (FileInputStream fis = new FileInputStream(PROPERTIES_FILE)) {
-            properties.load(fis);
+        try (InputStream input = DatabaseConnection.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE)) {
+            if (input == null) {
+                System.err.println("Could not find " + PROPERTIES_FILE);
+            } else {
+                properties.load(input);
+            }
         } catch (IOException e) {
             System.err.println("Error loading database properties: " + e.getMessage());
         }
@@ -32,7 +43,7 @@ public class DatabaseConnection {
             try {
                 conn.close();
             } catch (SQLException e) {
-                System.err.println("Error closing connection: " + e.getMessage());
+                System.err.println("Error closing conection: " + e.getMessage());
             }
         }
     }
