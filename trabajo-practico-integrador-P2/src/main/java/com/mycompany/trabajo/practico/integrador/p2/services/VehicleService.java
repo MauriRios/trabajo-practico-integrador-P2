@@ -6,6 +6,7 @@ import com.mycompany.trabajo.practico.integrador.p2.daos.VehicleDao;
 import com.mycompany.trabajo.practico.integrador.p2.entities.InsuranceVehicle;
 import com.mycompany.trabajo.practico.integrador.p2.entities.Vehicle;
 import com.mycompany.trabajo.practico.integrador.p2.exceptions.DatabaseException;
+import com.mycompany.trabajo.practico.integrador.p2.exceptions.DuplicateEntityException;
 import com.mycompany.trabajo.practico.integrador.p2.exceptions.ValidationException;
 
 import java.sql.Connection;
@@ -29,7 +30,7 @@ public class VehicleService implements GenericService<Vehicle> {
             // Verificar dominio duplicado
             Vehicle existing = vehicleDao.findByDomain(vehicle.getDomain(), conn);
             if (existing != null) {
-                throw new ValidationException("A vehicle with domain '" + vehicle.getDomain() + "' already exists.");
+                throw new DuplicateEntityException("A vehicle with domain '" + vehicle.getDomain() + "' already exists.");
             }
 
             // Crear el vehículo primero (sin seguro)
