@@ -38,10 +38,10 @@ CREATE TABLE vehicle (
    2) TRIGGERS DE VALIDACIÓN Y BLOQUEO DE BORRADO FÍSICO
    ============================================================= */
 
-DROP TRIGGER IF EXISTS trg_vehicle_year_check_insert;
-DROP TRIGGER IF EXISTS trg_vehicle_year_check_update;
-DROP TRIGGER IF EXISTS trg_insurance_delete;
-DROP TRIGGER IF EXISTS trg_vehicle_delete;
+# DROP TRIGGER IF EXISTS trg_vehicle_year_check_insert;
+# DROP TRIGGER IF EXISTS trg_vehicle_year_check_update;
+# DROP TRIGGER IF EXISTS trg_insurance_delete;
+# DROP TRIGGER IF EXISTS trg_vehicle_delete;
 
 DELIMITER //
 CREATE TRIGGER trg_vehicle_year_check_insert
@@ -95,16 +95,16 @@ DELIMITER ;
 /* =============================================================
    4) CARGA MASIVA (CTE RECURSIVA)
    ============================================================= */
-SET @@cte_max_recursion_depth = 100000;
+# SET @@cte_max_recursion_depth = 100000;
 INSERT INTO insurance_vehicle (isActive, insurance_name, policy_number, cover, expire_date)
-SELECT TRUE, CONCAT('Aseguradora ', 'La Caja'), CONCAT('POL', n),
+SELECT 1, CONCAT('Aseguradora ', 'La Caja'), CONCAT('POL', n),
        ELT(FLOOR(1 + (RAND()*3)), 'RC','Contra terceros','Todo_riesgo'),
        DATE_ADD(CURDATE(), INTERVAL (n MOD 365) DAY)
 FROM (
   WITH RECURSIVE nums AS (
     SELECT 1 AS n
     UNION ALL
-    SELECT n + 1 FROM nums WHERE n < 100000
+    SELECT n + 1 FROM nums WHERE n < 20
   )
   SELECT n FROM nums
 ) seq;
@@ -119,7 +119,7 @@ FROM (
   WITH RECURSIVE nums AS (
     SELECT 1 AS n
     UNION ALL
-    SELECT n + 1 FROM nums WHERE n < 100000
+    SELECT n + 1 FROM nums WHERE n < 20
   )
   SELECT n FROM nums
 ) seq;
