@@ -148,14 +148,11 @@ try {
 
 ## 👥 Integrantes del Equipo
 
-1. **[Juan Pablo Rivero]** - Desarrollo de entidades, DAOs y transacciones
-2. **[Mauricio Rios]** - Desarrollo de servicios insuranceService
-3. **[Nahuel Riveros]** - Desarrollo del menú y validaciones
+1. **[Juan Pablo Rivero]** -Documentación, Desarrollo de entidades, DAOs y transacciones
+2. **[Mauricio Rios]** - Documentación,Desarrollo de servicios insuranceService y transacciones
+3. **[Nahuel Riveros]** -Documentación, Desarrollo del menú y validaciones
 4. **[Brian Rios]** - Documentación, scripts SQL servicios insuranceVehicleService
 
-## 🎥 Video Demostrativo
-
-[Enlace al video en YouTube/Google Drive]
 
 ## 📝 Licencia
 
